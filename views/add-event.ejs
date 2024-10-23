@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Event</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Add New Event</h1>
+    <p>Welcome, <%= user %>! <a href="/logout">Logout</a></p>
+    <form action="/add-event" method="POST">
+        <label for="name">Event Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="date">Event Date:</label>
+        <input type="date" id="date" name="date" required><br><br>
+        <label for="isActive">Activate Event:</label>
+        <input type="checkbox" id="isActive" name="isActive"><br><br>
+        <button type="submit">Add Event</button>
+    </form>
+    <br>
+    <a href="/events">Back to Events</a>
+</body>
+</html>

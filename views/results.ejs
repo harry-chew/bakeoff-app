@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Voting Results</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <% if (user) { %>
+        <p>Welcome, <%= user.username %>! <a href="/logout">Logout</a></p>
+        <a href="/add-food">Add New Food</a> | 
+        <a href="/events">Manage Events</a> |
+        <a href="/">Back to Voting</a>
+    <% } else { %>
+        <p><a href="/login">Login</a> to add foods or view results</p>
+    <% } %>
+    <h1>Food Voting Results</h1>
+    <table border="1">
+        <tr>
+            <th>Food Name</th>
+            <th>Taste</th>
+            <th>Look</th>
+            <th>Feel</th>
+            <th>Total Score</th>
+        </tr>
+        <% foods.forEach(food => { %>
+            <tr>
+                <td><%= food.name %></td>
+                <td><%= food.taste %></td>
+                <td><%= food.look %></td>
+                <td><%= food.feel %></td>
+                <td><%= food.total %></td>
+            </tr>
+        <% }); %>
+    </table>
+    <br>
+    <a href="/add-food">Add New Food</a><br>
+    <a href="/">Back to Voting</a>
+    <br><br>
+    <form action="/clear-all" method="POST" onsubmit="return confirm('Are you sure you want to clear all data? This action cannot be undone.');">
+        <button type="submit">Clear All Data</button>
+    </form>
+</body>
+</html>
