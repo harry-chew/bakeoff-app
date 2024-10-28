@@ -62,18 +62,19 @@ app.use((err, req, res, next) => {
   res.status(500).send('An unexpected error occurred. Please try again later.');
 });
 
+sequelize.authenticate();
 // Sync database
 sequelize.sync(/*{ force: true }*/)
   .then(() => {
     logger.info('Database connection established');
+
+    // Start the server after the database has connected
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+      logger.info(`App started and listening at: http://localhost:${port}`);
+      console.log(`App started and listening at: http://localhost:${port}`);
+    });
   }).catch(error => {
     logger.error('Error connecting to database:', error);
     process.exit(1);  // Exit with failure status
-  });
-
-// Start the server
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  logger.info(`App started and listening at: http://localhost:${port}`);
-  console.log(`App started and listening at: http://localhost:${port}`);
 });

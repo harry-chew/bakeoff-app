@@ -83,14 +83,12 @@ router.post('/clear-all', isAuthenticated, async (req, res) => {
   try {
     // Delete all votes
     await Vote.destroy({
-      where: {},
-      truncate: true
+      where: {}
     });
 
     // Delete all foods
     await Food.destroy({
-      where: {},
-      truncate: true
+      where: {}
     });
 
     // Log the action
