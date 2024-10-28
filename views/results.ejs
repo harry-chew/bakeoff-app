@@ -1,21 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Voting Results</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-    <% if (user) { %>
-        <p>Welcome, <%= user.username %>! <a href="/logout">Logout</a></p>
-        <a href="/add-food">Add New Food</a> | 
-        <a href="/events">Manage Events</a> |
-        <a href="/">Back to Voting</a>
-    <% } else { %>
-        <p><a href="/login">Login</a> to add foods or view results</p>
-    <% } %>
-    <h1>Food Voting Results</h1>
+<%- include('partials/header') %>
+
+    <h2>Food Voting Results</h2>
+    <form action="/results" method="GET">
+        <button type="submit" class="refresh-button">Refresh Results</button>
+    </form>
     <table border="1">
         <tr>
             <th>Food Name</th>
@@ -34,12 +22,22 @@
             </tr>
         <% }); %>
     </table>
-    <br>
-    <a href="/add-food">Add New Food</a><br>
-    <a href="/">Back to Voting</a>
-    <br><br>
-    <form action="/clear-all" method="POST" onsubmit="return confirm('Are you sure you want to clear all data? This action cannot be undone.');">
-        <button type="submit">Clear All Data</button>
+    <form id="clearForm" method="POST">
+        <button type="button" onclick="clearData('all')">Clear All Data</button>
+        <button type="button" onclick="clearData('votes')">Clear Votes</button>
     </form>
-</body>
-</html>
+    
+    <script>
+        function clearData(type) {
+            let message = type === 'votes' 
+                ? 'Are you sure you want to clear all vote data? This action cannot be undone.'
+                : 'Are you sure you want to clear all food and vote data? This action cannot be undone.';
+            
+            if (confirm(message)) {
+                document.getElementById('clearForm').action = type === 'votes' ? '/clear-votes' : '/clear-all';
+                document.getElementById('clearForm').submit();
+            }
+        }
+    </script>
+
+<%- include('partials/footer') %>

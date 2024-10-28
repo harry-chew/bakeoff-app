@@ -1,21 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Voting App</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-    <% if (user) { %>
-        <p>Welcome, <%= user.username %>! <a href="/logout">Logout</a></p>
-        <a href="/add-food">Add New Food</a> | 
-        <a href="/results">View Results</a>
-    <% } else { %>
-        <p><a href="/login">Login</a> to add foods or view results</p>
-    <% } %>
-    <h1>Food Voting App</h1>
-    
+<%- include('partials/header') %>
+
     <h2>Vote for a Food</h2>
     <form action="/vote" method="POST">
         <label for="foodName">Select Food:</label>
@@ -26,20 +10,21 @@
             <% }); %>
         </select>
         <br><br>
-        <label for="taste">Taste (1-10):</label>
-        <input type="number" id="taste" name="taste" min="1" max="10" required>
-        <br><br>
-        <label for="look">Look (1-10):</label>
-        <input type="number" id="look" name="look" min="1" max="10" required>
-        <br><br>
-        <label for="feel">Feel (1-10):</label>
-        <input type="number" id="feel" name="feel" min="1" max="10" required>
-        <br><br>
-        <button type="submit">Submit Vote</button>
+        <div class="slider-container">
+            <label for="taste">Taste (0-10): <span id="tasteValue" class="slider-value">5</span></label>
+            <input type="range" id="taste" name="taste" min="0" max="10" value="5" class="slider">
+        </div>
+        
+        <div class="slider-container">
+            <label for="look">Look (0-10): <span id="lookValue" class="slider-value">5</span></label>
+            <input type="range" id="look" name="look" min="0" max="10" value="5" class="slider">
+        </div>
+        
+        <div class="slider-container">
+            <label for="feel">Feel (0-10): <span id="feelValue" class="slider-value">5</span></label>
+            <input type="range" id="feel" name="feel" min="0" max="10" value="5" class="slider">
+        </div>
+        <button class="half-width centered" type="submit">Submit Vote</button>
     </form>
-    <br>
-    <a href="/add-food">Add New Food</a>
-    <br>
-    <a href="/results">View Results</a>
-</body>
-</html>
+    <script src="/js/sliders.js"></script>
+<%- include('partials/footer') %>

@@ -13,7 +13,7 @@ router.post('/vote', async (req, res) => {
       feel: req.body.feel,
       FoodId: food.id
     });
-    logger.info(`Vote: ${req.body.foodName} T:${req.body.body.taste} L:${req.body.body.look} F:${req.body.body.feel}`);
+    logger.info(`Vote: ${req.body.foodName} T:${req.body.taste} L:${req.body.look} F:${req.body.feel}`);
     res.redirect('/');
   } catch (error) {
     logger.error('Error voting:', error);
@@ -50,11 +50,32 @@ router.get('/results', isAuthenticated, async (req, res) => {
         total: ((avgTaste + avgLook + avgFeel) / 3).toFixed(2)
       };
     });
-    res.render('results', { foods: results, user: req.session.user });
+
+    // Sort the results array by total score in descending order
+    results.sort((a, b) => b.total - a.total);
+
+    res.render('results', { foods: results /*, user: req.session.user */ });
   } catch (error) {
     logger.error('Error fetching results:', error);
     console.error(error);
     res.status(500).send('Error fetching results');
+  }
+});
+
+router.post('/clear-votes', isAuthenticated, async (req, res) => {
+  try {
+    // Delete all votes
+    await Vote.destroy({
+      where: {},
+      truncate: true
+    });
+
+    // Log the action
+    logger.info('Data cleared');
+    res.redirect('/results');
+  } catch (error) {
+    logger.error('Error clearing data:', error);
+    res.status(500).send('Error clearing data');
   }
 });
 
@@ -77,7 +98,6 @@ router.post('/clear-all', isAuthenticated, async (req, res) => {
     res.redirect('/results');
   } catch (error) {
     logger.error('Error clearing data:', error);
-    console.error('Error clearing data:', error);
     res.status(500).send('Error clearing data');
   }
 });

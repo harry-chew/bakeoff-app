@@ -6,7 +6,7 @@ const path = require('path');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const sequelize = require('./database');
-const { Food, Vote } = require('./models');
+const { Food } = require('./models');
 const logger = require('./config/logger');
 const loggingMiddleware = require('./middleware/logging');
 const statusMonitor = require('express-status-monitor');
@@ -15,16 +15,12 @@ const statusMonitor = require('express-status-monitor');
 const authRoutes = require('./routes/auth');
 const foodRoutes = require('./routes/food');
 const voteRoutes = require('./routes/votes');
+const viewRoutes = require('./routes/views');
 const { isAuthenticated } = require('./middleware/auth');
 // Import other route files
 
 const app = express();
 app.use('/status', isAuthenticated, statusMonitor());
-//global
-app.use((req, res, next) => {
-  logger.info(`Incoming request: ${req.method} ${req.url}`);
-  next();
-});
 
 // Middleware
 app.use(loggingMiddleware);
@@ -40,10 +36,16 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: { 
-    secure: false, // set to true if using https
+    secure: process.env.NODE_ENV === 'production', // set to true if using https
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }
 }));
+
+// passes user info to all views
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
 
 // Use routes
 app.use('/', authRoutes);
@@ -52,15 +54,7 @@ app.use('/', voteRoutes);
 // Use other route files
 
 // View Routes
-app.get('/', async (req, res) => {
-  try {
-    const foods = await Food.findAll();
-    res.render('index', { foods, user: req.session.user });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error fetching foods');
-  }
-});
+app.use('/', viewRoutes);
 
 // Add this after all your routes
 app.use((err, req, res, next) => {

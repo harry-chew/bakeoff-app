@@ -19,7 +19,11 @@ router.post('/login', (req, res) => {
   if (user && bcrypt.compareSync(password, user.password)) {
     req.session.user = { username : user.username };
     logger.info(`User ${username} logged in`);
-    res.redirect('/');
+
+    const returnTo = req.session.returnTo || '/';
+    delete req.session.returnTo;
+
+    res.redirect(returnTo);
   } else {
     logger.warn(`Invalid login attempt for user ${username}`);
     res.render('login', { error: 'Invalid username or password' });
@@ -42,7 +46,7 @@ router.get('/logout', (req, res) => {
       if (err) {
         logger.error(err);
       } else {
-          logger.info(`User ${username} logged out`);
+        logger.info(`User ${username} logged out`);
       }
       res.redirect('/');
     });
@@ -50,7 +54,6 @@ router.get('/logout', (req, res) => {
     logger.error('Error logging out:', error);
   }
 });
-
 
 
 module.exports = router;

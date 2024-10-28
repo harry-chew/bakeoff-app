@@ -5,8 +5,8 @@ const loggingMiddleware = (req, res, next) => {
   res.on('finish', () => {
     const duration = Date.now() - start;
     logger.info({
-      method: req.method,
       url: req.url,
+      method: req.method,
       status: res.statusCode,
       duration: `${duration}ms`,
     });

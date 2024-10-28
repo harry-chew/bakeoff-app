@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bake-Off App</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="/">
+            <div class="logo">
+                <!-- Add your logo image here -->
+                <i class="fa-solid fa-kitchen-set"></i>
+                <h1>Bake-Off App</h1>
+            </div>
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/">
+                            <i class="fa-regular fa-square-check"></i> 
+                            <p>Vote</p> 
+                        </a>
+                    </li>
+                    <% if (user) { %>
+                        <li>
+                            <a href="/results">
+                                <i class="fas fa-chart-bar"></i>
+                                <p>Results</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/add-food">
+                                <i class="fas fa-plus"></i> 
+                                <p>Add Food</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/logout">
+                                <i class="fas fa-sign-out-alt"></i> 
+                                <p>Logout</p>
+                            </a>
+                        </li>
+                    <% } else { %>
+                        <li>
+                            <a href="/login">
+                                <i class="fas fa-sign-in-alt"></i> 
+                                <p>Login</p>
+                            </a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="container">
