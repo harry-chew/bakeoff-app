@@ -16,3 +16,7 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+
+# Dev files
+seedDatabase.js
