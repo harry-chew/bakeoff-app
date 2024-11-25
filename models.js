@@ -6,6 +6,10 @@ const Food = sequelize.define('Food', {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true
+  },
+  info: {
+    type: DataTypes.TEXT,
+    allowNull: true
   }
 });
 
@@ -24,25 +28,8 @@ const Vote = sequelize.define('Vote', {
   }
 });
 
-// const Event = sequelize.define('Event', {
-//     name: {
-//       type: DataTypes.STRING,
-//       allowNull: false
-//     },
-//     date: {
-//       type: DataTypes.DATEONLY,
-//       allowNull: false
-//     },
-//     isActive: {
-//       type: DataTypes.BOOLEAN,
-//       defaultValue: false
-//     }
-//   });
-
 Food.hasMany(Vote);
 Vote.belongsTo(Food);
 
-// Event.hasMany(Food);
-// Food.belongsTo(Event);
 
-module.exports = { Food, Vote, Event };
+module.exports = { Food, Vote };

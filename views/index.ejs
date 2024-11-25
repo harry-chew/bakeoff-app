@@ -9,6 +9,7 @@
                 <option value="<%= food.name %>"><%= food.name %></option>
             <% }); %>
         </select>
+        <p id="foodInfo"></p>
         <br><br>
         <div class="slider-container">
             <label for="taste">Taste (0-10): <span id="tasteValue" class="slider-value">5</span></label>
@@ -26,5 +27,21 @@
         </div>
         <button class="half-width centered" type="submit">Submit Vote</button>
     </form>
+    <script>
+        const foods = <%- JSON.stringify(foods) %>;
+
+        const foodNameSelect = document.getElementById('foodName');
+        const foodInfoText = document.getElementById('foodInfo');
+
+        foodNameSelect.addEventListener('change', () => {
+            const selectedFood = foods.find(food => food.name === foodNameSelect.value);
+            if (selectedFood && selectedFood.info) {
+                foodInfoText.textContent = `Info: ${selectedFood.info}`;
+            } else {
+                foodInfoText.textContent = '';
+            }
+        });
+
+    </script>
     <script src="/js/sliders.js"></script>
 <%- include('partials/footer') %>

@@ -4,6 +4,8 @@
     <form action="/add-food" method="POST">
         <label for="newFoodName">New Food Name:</label>
         <input type="text" id="newFoodName" name="foodName" required>
+        <label for="newFoodInfo">Any info?</label>
+        <input type="text" id="newFoodInfo" name="foodInfo">
         <button type="submit">Add Food</button>
     </form>
 
@@ -19,6 +21,7 @@
                         </div>
                         <form id="editForm<%= food.id %>" class="edit-form" style="display:none;" action="/edit-food/<%= food.id %>" method="POST">
                             <input type="text" name="newName" value="<%= food.name %>" required>
+                            <input type="text" name="newInfo" value="<%= food.info %>">
                             <button type="submit">Save</button>
                         </form>
                         

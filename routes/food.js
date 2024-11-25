@@ -16,15 +16,16 @@ router.get('/add-food', isAuthenticated, async (req, res) => {
 
 router.post('/add-food', isAuthenticated, async (req, res) => {
   try {
-      const { foodName } = req.body;
+      const { foodName, foodInfo } = req.body;
       logger.info(`Attempting to add food: ${foodName}`);
       
       if (!foodName) {
           logger.error('Missing foodName or eventId');
           return res.status(400).send('Food name and event ID are required');
       }
-
-      const newFood = await Food.create({ name: foodName});
+      
+      const newFood = await Food.create({ name: foodName, info: foodInfo });
+      
       logger.info(`Food added successfully: ${newFood.name}`);
       res.redirect('/add-food');
   } catch (error) {
@@ -36,7 +37,7 @@ router.post('/add-food', isAuthenticated, async (req, res) => {
 router.post('/edit-food/:id', isAuthenticated, async (req, res) => {
   try {
     const { id } = req.params;
-    const { newName } = req.body;
+    const { newName, newInfo } = req.body;
     
     if (!newName) {
       logger.error('Missing newName');
@@ -50,6 +51,9 @@ router.post('/edit-food/:id', isAuthenticated, async (req, res) => {
     }
 
     food.name = newName;
+    if (newInfo)
+      food.info = newInfo;
+    
     await food.save();
 
     logger.info(`Food updated successfully: ${food.name}`);
