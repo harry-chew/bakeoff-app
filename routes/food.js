@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Food } = require('../models');
+const { Food } = require('../models/index.js');
 const { isAuthenticated } = require('../middleware/auth');
 const logger = require('../config/logger');
 

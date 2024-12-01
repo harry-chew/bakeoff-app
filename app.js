@@ -6,7 +6,7 @@ const path = require('path');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const sequelize = require('./database');
-const { Food } = require('./models');
+
 const logger = require('./config/logger');
 const loggingMiddleware = require('./middleware/logging');
 const statusMonitor = require('express-status-monitor');
